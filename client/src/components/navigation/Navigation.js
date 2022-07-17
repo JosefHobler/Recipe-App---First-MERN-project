@@ -2,7 +2,7 @@ import React from "react";
 import "./navigation.scss";
 import Switch from "react-switch";
 import { useDispatch, useSelector } from "react-redux";
-import { darkModeSliceAction } from "../store/darkModeSlice";
+import { darkModeSliceAction } from "../../store/darkModeSlice";
 function Navigation() {
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.darkMode);

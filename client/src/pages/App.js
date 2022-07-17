@@ -1,9 +1,9 @@
 import "./App.scss";
 import axios from "axios";
-import RecipeBlock from "../components/RecipeBlock";
+import RecipeBlock from "../components/recipeBlock/RecipeBlock";
 import { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
-import Navigation from "../components/Navigation";
+import Navigation from "../components/navigation/Navigation";
 import {
   faAdd,
   faCirclePlus,
