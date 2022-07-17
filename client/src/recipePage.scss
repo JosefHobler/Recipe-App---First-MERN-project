@@ -1,0 +1,67 @@
+.card {
+  text-align: center;
+  padding: 2vh 2vw;
+  width: 25%;
+  height: 85%;
+  border-radius: 1vw;
+  -webkit-box-shadow: 0px 0px 5px 6px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0px 0px 5px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 0px 5px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
+
+  .ingredients {
+    max-height: 18%;
+    height: 18%;
+    margin-left: 1vw;
+    overflow-y: auto;
+    margin-bottom: 2vh;
+  }
+
+  .preparation {
+    height: 15%;
+    max-height: 15%;
+    overflow-y: auto;
+    p {
+      text-align: start;
+    }
+  }
+
+  h2 {
+    word-wrap: break-word;
+    padding-bottom: 1vh;
+    margin-top: 1rem;
+    border-top: 1px solid black;
+  }
+  h4 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  .position-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+
+    &:nth-child(7) {
+      left: 0;
+      transform: translateY(-47%) translateX(-50%);
+    }
+
+    &:nth-child(8) {
+      transform: translateY(-105%) translateX(50%);
+      &:hover {
+        transform: scale(1.1) translateX(50%) translateY(-105%);
+      }
+    }
+    &:nth-child(9) {
+      transform: translateY(5%) translateX(50%);
+      &:hover {
+        transform: scale(1.1) translateX(50%) translateY(5%);
+      }
+    }
+  }
+}

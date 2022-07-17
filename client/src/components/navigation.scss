@@ -1,0 +1,23 @@
+.navigation-wrapper {
+  height: 10vh;
+  border-bottom-left-radius: 5%;
+  border-bottom-right-radius: 5%;
+  margin-bottom: 4vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  -webkit-box-shadow: 0px 0px 5px 6px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 5px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 5px 6px rgba(0, 0, 0, 0.1);
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .darkMode-icon {
+      font-size: 2rem;
+      margin-left: 0.5rem;
+    }
+  }
+}
