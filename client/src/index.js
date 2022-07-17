@@ -1,18 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+import App from "./pages/App";
 import reportWebVitals from "./reportWebVitals";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "animate.css";
-import RecipePage from "./RecipePage";
-import EditPage from "./EditPage";
+import RecipePage from "./pages/RecipePage";
+import EditPage from "./pages/EditPage";
 import store from "./store/store";
 import { Provider } from "react-redux";
 

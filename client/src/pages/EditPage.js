@@ -2,14 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./editPage.scss";
-import { nanoid } from "nanoid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
   faCirclePlus,
   faMinusCircle,
-  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
+
 function EditPage() {
   const [recipe, setRecipe] = useState({
     name: "",
@@ -19,16 +18,48 @@ function EditPage() {
     postedBy: "",
     postedAt: "",
   });
+
   const id = window.location.pathname.substring(6);
 
-  const changeRecipe = (e) => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    let res;
+    try {
+      res = await axios.get(`http://localhost:5000/${id}`);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+    setRecipe(res.data.msg);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios.patch(`http://localhost:5000/${id}`, recipe);
+  };
+
+  // Handle changing input values
+
+  const handleChange = (e) => {
     setRecipe((recipe) => ({
       ...recipe,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const deleteIngredient = (index) => {
+  const handleChangeRecipeIngredients = (e, index) => {
+    recipe.ingredients[index] = e.target.value;
+    setRecipe((recipe) => ({
+      ...recipe,
+    }));
+  };
+
+  // 2 Functions for buttons in section Ingredients
+
+  const handleDeleteIngredient = (index) => {
     const newIngredients = recipe.ingredients.filter((_, i) => i !== index);
     setRecipe((recipe) => ({
       ...recipe,
@@ -46,23 +77,7 @@ function EditPage() {
     }));
   };
 
-  const changeRecipeIngredients = (e, index) => {
-    recipe.ingredients[index] = e.target.value;
-    setRecipe((recipe) => ({
-      ...recipe,
-    }));
-  };
-
-  const fetchData = async () => {
-    const res = await axios.get(`http://localhost:5000/${id}`);
-    setRecipe(res.data.msg);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await axios.patch(`http://localhost:5000/${id}`, recipe);
-    console.log(res);
-  };
+  //
 
   const displayIngredients = () => {
     if (!recipe.ingredients) return;
@@ -75,13 +90,13 @@ function EditPage() {
             type="text"
             id="ingredients"
             placeholder="Ingredient (required)"
-            onChange={(e) => changeRecipeIngredients(e, index)}
+            onChange={(e) => handleChangeRecipeIngredients(e, index)}
             value={ingredient}
           />
           <button
             className="minus add-ingredients-button"
             type="button"
-            onClick={() => deleteIngredient(index)}
+            onClick={() => handleDeleteIngredient(index)}
           >
             <FontAwesomeIcon icon={faMinusCircle} />
           </button>
@@ -89,10 +104,6 @@ function EditPage() {
       </div>
     ));
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <div className="center-container">
@@ -104,8 +115,7 @@ function EditPage() {
             className="custom-input"
             name="name"
             type="text"
-            id="name"
-            onChange={changeRecipe}
+            onChange={handleChange}
             value={recipe.name}
           />
         </div>
@@ -121,7 +131,7 @@ function EditPage() {
           <textarea
             placeholder="Preparation"
             className="custom-textarea edit-preparations-container"
-            onChange={changeRecipe}
+            onChange={handleChange}
             name="preparation"
             cols={50}
             rows={10}
@@ -132,7 +142,7 @@ function EditPage() {
         <div className="edit-splitter">
           <div>
             <input
-              onChange={changeRecipe}
+              onChange={handleChange}
               name="postedBy"
               type="text"
               placeholder="Author"
@@ -142,7 +152,7 @@ function EditPage() {
           </div>
           <div>
             <input
-              onChange={changeRecipe}
+              onChange={handleChange}
               name="image"
               type="text"
               placeholder="Image URL"

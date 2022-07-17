@@ -1,8 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./recipeBlock.scss";
-import { nanoid } from "nanoid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDoubleDown,
@@ -11,11 +9,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function RecipeBlock({ recipe, fetchData }) {
-  console.log(recipe);
   const { ingredients, name, image, postedBy, postedAt, _id } = recipe;
+
   const handleDelete = async () => {
-    console.log(_id);
-    await axios.delete(`http://localhost:5000/${_id}`);
+    try {
+      await axios.delete(`http://localhost:5000/${_id}`);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
     await fetchData();
   };
 

@@ -9,8 +9,8 @@ import {
   faEdit,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
+
 function RecipePage() {
-  const id = window.location.pathname.substring(1);
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState({
     name: "",
@@ -18,9 +18,32 @@ function RecipePage() {
     preparation: "",
     image: "",
   });
+
+  const id = window.location.pathname.substring(1);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const fetchData = async () => {
-    const res = await axios.get(`http://localhost:5000/${id}`);
+    let res;
+    try {
+      res = await axios.get(`http://localhost:5000/`);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
     setRecipe(res.data.msg);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/${id}`);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+    navigate("/");
   };
 
   const displayIngredients = () => {
@@ -30,15 +53,6 @@ function RecipePage() {
       <li key={nanoid()}>{ingredient}</li>
     ));
   };
-  console.log(id);
-  const handleDelete = async () => {
-    await axios.delete(`http://localhost:5000/${id}`);
-    navigate("/");
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <div className="container">

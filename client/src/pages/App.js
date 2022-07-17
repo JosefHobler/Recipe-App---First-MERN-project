@@ -1,28 +1,23 @@
 import "./App.scss";
 import axios from "axios";
-import RecipeBlock from "./components/RecipeBlock";
+import RecipeBlock from "../components/RecipeBlock";
 import { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
-import Navigation from "./components/Navigation";
+import Navigation from "../components/Navigation";
 import {
   faAdd,
   faCirclePlus,
   faClose,
-  faMinus,
   faMinusCircle,
-  faMinusSquare,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useOnClickOutside from "./hooks/onClickOutside";
+import useOnClickOutside from "../hooks/onClickOutside";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
   const [addMode, setAddMode] = useState(false);
   const addBoxRef = useRef(null);
-  useOnClickOutside(addBoxRef, () => setAddMode(false));
-  // debugger;
-
   const [newRecipe, setNewRecipe] = useState({
     name: "",
     ingredients: [""],
@@ -31,34 +26,23 @@ function App() {
     postedBy: "",
     postedAt: "",
   });
-  console.log(newRecipe);
-  const fetchData = async () => {
-    const res = await axios.get("http://localhost:5000");
-    setRecipes(res.data.msg);
-  };
+  useOnClickOutside(addBoxRef, () => setAddMode(false));
 
-  const displayIngredients = () => {
-    return newRecipe.ingredients.map((ingredient, index) => (
-      <div>
-        <span className="ingredients-container">
-          <input
-            className="custom-input"
-            type="text"
-            id="ingredients"
-            placeholder="Ingredient (required)"
-            onChange={(e) => changeRecipeIngredients(e, index)}
-            value={ingredient}
-          />
-          <button
-            className="minus add-ingredients-button"
-            type="button"
-            onClick={() => deleteIngredient(index)}
-          >
-            <FontAwesomeIcon icon={faMinusCircle} />
-          </button>
-        </span>
-      </div>
-    ));
+  // debugger;
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    let res;
+    try {
+      res = await axios.get(`http://localhost:5000/`);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+    setRecipes(res.data.msg);
   };
 
   const resetRecipe = () => {
@@ -72,13 +56,38 @@ function App() {
     });
   };
 
-  const deleteIngredient = (index) => {
-    const newIngredients = newRecipe.ingredients.filter((_, i) => i !== index);
-    setNewRecipe((recipe) => ({
-      ...recipe,
-      ingredients: newIngredients,
-    }));
+  const generateRecipeBlocks = () => {
+    if (!recipes) return;
+    return recipes.map((recipe) => {
+      return (
+        <RecipeBlock key={nanoid()} recipe={recipe} fetchData={fetchData} />
+      );
+    });
   };
+
+  //
+  // Add section logic
+  //
+
+  const handleClose = () => {
+    setAddMode(false);
+    resetRecipe();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setAddMode(false);
+    try {
+      await axios.post("http://localhost:5000", newRecipe);
+    } catch (err) {
+      resetRecipe();
+      return;
+    }
+    resetRecipe();
+    await fetchData();
+  };
+
+  // Handle changing input values
 
   const handleChange = (e) => {
     setNewRecipe((newRecipe) => ({
@@ -87,7 +96,7 @@ function App() {
     }));
   };
 
-  const changeRecipeIngredients = (e, index) => {
+  const handleChangeRecipeIngredients = (e, index) => {
     const temp = [...newRecipe.ingredients];
     temp[index] = e.target.value;
     setNewRecipe((recipe) => ({
@@ -96,17 +105,14 @@ function App() {
     }));
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // 2 Functions for buttons in section Ingredients
 
-  const generateRecipeBlocks = () => {
-    if (!recipes) return;
-    return recipes.map((recipe) => {
-      return (
-        <RecipeBlock key={nanoid()} recipe={recipe} fetchData={fetchData} />
-      );
-    });
+  const handleDeleteIngredient = (index) => {
+    const newIngredients = newRecipe.ingredients.filter((_, i) => i !== index);
+    setNewRecipe((recipe) => ({
+      ...recipe,
+      ingredients: newIngredients,
+    }));
   };
 
   const handleAddIngredient = () => {
@@ -119,22 +125,30 @@ function App() {
     }));
   };
 
-  const handleClose = () => {
-    setAddMode(false);
-    resetRecipe();
-  };
+  //
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setAddMode(false);
-    try {
-      const res = await axios.post("http://localhost:5000", newRecipe);
-    } catch (err) {
-      resetRecipe();
-      return;
-    }
-    resetRecipe();
-    await fetchData();
+  const displayIngredients = () => {
+    return newRecipe.ingredients.map((ingredient, index) => (
+      <div>
+        <span className="ingredients-container">
+          <input
+            className="custom-input"
+            type="text"
+            id="ingredients"
+            placeholder="Ingredient (required)"
+            onChange={(e) => handleChangeRecipeIngredients(e, index)}
+            value={ingredient}
+          />
+          <button
+            className="minus add-ingredients-button"
+            type="button"
+            onClick={() => handleDeleteIngredient(index)}
+          >
+            <FontAwesomeIcon icon={faMinusCircle} />
+          </button>
+        </span>
+      </div>
+    ));
   };
 
   return (
@@ -146,6 +160,7 @@ function App() {
       <button className="cta-button-main" onClick={() => setAddMode(true)}>
         <FontAwesomeIcon icon={faPlus} />
       </button>
+      {/* Add new recipe */}
       {addMode && (
         <div className="add-container">
           <div
