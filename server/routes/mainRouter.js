@@ -20,8 +20,8 @@ router.post("/", async function (req, res) {
     ingredients: req.body.ingredients,
     preparation: req.body.preparation,
     image: req.body.image,
-    postedBy: req.postedBy,
-    postedAt: req.postedAt,
+    postedBy: req.body.postedBy,
+    postedAt: req.body.postedAt,
   });
   try {
     const newRecipe = await recipe.save();
@@ -63,6 +63,13 @@ router.patch("/:id", findRecipe, async function (req, res) {
   if (req.body.ingredients != null) {
     res.recipe.ingredients = req.body.ingredients;
   }
+  if (req.body.image != null) {
+    res.recipe.image = req.body.image;
+  }
+  if (req.body.postedBy != null) {
+    res.recipe.postedBy = req.body.postedBy;
+  }
+
   try {
     const updatedRecipe = await res.recipe.save();
     res.status(200).json({ updatedRecipe });

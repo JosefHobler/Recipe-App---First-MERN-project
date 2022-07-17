@@ -29,11 +29,12 @@ const recipeSchema = new mongoose.Schema({
   postedBy: {
     type: String,
     trim: true,
+    required: false,
     default: "anonymous",
   },
   postedAt: {
     type: String,
-    required: true,
+    required: false,
     default: formatted_date(),
   },
 });
