@@ -3,8 +3,6 @@ import "./navigation.scss";
 import Switch from "react-switch";
 import { useDispatch, useSelector } from "react-redux";
 import { darkModeSliceAction } from "../store/darkModeSlice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon } from "@fortawesome/free-solid-svg-icons";
 function Navigation() {
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.darkMode);

@@ -94,7 +94,7 @@ function EditPage() {
             value={ingredient}
           />
           <button
-            className="minus add-ingredients-button"
+            className="minus-button add-ingredients-button"
             type="button"
             onClick={() => handleDeleteIngredient(index)}
           >
@@ -130,7 +130,7 @@ function EditPage() {
         <div>
           <textarea
             placeholder="Preparation"
-            className="custom-textarea edit-preparations-container"
+            className="custom-textarea"
             onChange={handleChange}
             name="preparation"
             cols={50}

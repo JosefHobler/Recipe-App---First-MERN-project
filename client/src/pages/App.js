@@ -140,7 +140,7 @@ function App() {
             value={ingredient}
           />
           <button
-            className="minus add-ingredients-button"
+            className="minus-button add-ingredients-button"
             type="button"
             onClick={() => handleDeleteIngredient(index)}
           >

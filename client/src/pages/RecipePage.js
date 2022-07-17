@@ -28,7 +28,7 @@ function RecipePage() {
   const fetchData = async () => {
     let res;
     try {
-      res = await axios.get(`http://localhost:5000/`);
+      res = await axios.get(`http://localhost:5000/${id}`);
     } catch (err) {
       console.error(err);
       return;

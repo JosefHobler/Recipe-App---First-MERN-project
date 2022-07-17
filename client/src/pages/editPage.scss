@@ -13,6 +13,19 @@
     margin-bottom: 1rem;
   }
 
+  .edit-ingredients-container {
+    max-height: 16%;
+    height: 16%;
+    overflow-y: auto;
+    margin-left: 20px;
+  }
+
+  .edit-splitter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .button-navigate {
     @extend .button-global;
     font-size: 1.25rem;
@@ -26,17 +39,4 @@
     padding: 1rem;
     margin: 3rem auto 0.5rem auto;
   }
-}
-
-.edit-ingredients-container {
-  max-height: 16%;
-  height: 16%;
-  overflow-y: auto;
-  margin-left: 20px;
-}
-
-.edit-splitter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
