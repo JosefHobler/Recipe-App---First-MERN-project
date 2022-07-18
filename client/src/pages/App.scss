@@ -140,6 +140,12 @@ form > div > .custom-input {
     border-radius: 1vw;
     text-align: center;
     position: relative;
+    height: 75vh;
+
+    & > form {
+      height: 90%;
+      max-height: 90%;
+    }
 
     .add-button-container {
       position: absolute;
@@ -154,10 +160,6 @@ form > div > .custom-input {
     & h3 {
       margin-bottom: 1rem;
       text-decoration: underline;
-    }
-
-    .add-preparation {
-      text-align: center;
     }
   }
 }

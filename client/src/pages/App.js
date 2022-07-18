@@ -4,15 +4,10 @@ import RecipeBlock from "../components/recipeBlock/RecipeBlock";
 import { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import Navigation from "../components/navigation/Navigation";
-import {
-  faAdd,
-  faCirclePlus,
-  faClose,
-  faMinusCircle,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faClose, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useOnClickOutside from "../hooks/onClickOutside";
+import Form from "../components/form/Form";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
@@ -105,52 +100,6 @@ function App() {
     }));
   };
 
-  // 2 Functions for buttons in section Ingredients
-
-  const handleDeleteIngredient = (index) => {
-    const newIngredients = newRecipe.ingredients.filter((_, i) => i !== index);
-    setNewRecipe((recipe) => ({
-      ...recipe,
-      ingredients: newIngredients,
-    }));
-  };
-
-  const handleAddIngredient = () => {
-    const recipeIngredients = [...newRecipe.ingredients];
-    recipeIngredients.push("");
-    setNewRecipe((recipe) => ({
-      name: recipe.name,
-      ingredients: recipeIngredients,
-      preparation: recipe.preparation,
-    }));
-  };
-
-  //
-
-  const displayIngredients = () => {
-    return newRecipe.ingredients.map((ingredient, index) => (
-      <div>
-        <span className="ingredients-container">
-          <input
-            className="custom-input"
-            type="text"
-            id="ingredients"
-            placeholder="Ingredient (required)"
-            onChange={(e) => handleChangeRecipeIngredients(e, index)}
-            value={ingredient}
-          />
-          <button
-            className="minus-button add-ingredients-button"
-            type="button"
-            onClick={() => handleDeleteIngredient(index)}
-          >
-            <FontAwesomeIcon icon={faMinusCircle} />
-          </button>
-        </span>
-      </div>
-    ));
-  };
-
   return (
     <>
       <Navigation />
@@ -168,60 +117,13 @@ function App() {
             ref={addBoxRef}
           >
             <h3>Add Recipe</h3>
-            <form onSubmit={handleSubmit}>
-              <div>
-                <input
-                  className="custom-input"
-                  placeholder="Name (required)"
-                  onChange={handleChange}
-                  name="name"
-                  type="text"
-                  id="name"
-                />
-              </div>
-              <div>
-                <span>{displayIngredients()}</span>
-              </div>
-              <button
-                className="add-ingredients-button plus-button"
-                type="button"
-                onClick={handleAddIngredient}
-              >
-                <FontAwesomeIcon icon={faCirclePlus} />
-              </button>
-              <div>
-                <div className="add-preparation"></div>
-                <textarea
-                  className="custom-textarea"
-                  placeholder="Preparation (required)"
-                  onChange={handleChange}
-                  name="preparation"
-                  cols={40}
-                  rows={10}
-                  type="text"
-                  id="preparation"
-                />
-              </div>
-              <div>
-                <input
-                  className="custom-input"
-                  placeholder="Image URL (required)"
-                  onChange={handleChange}
-                  name="image"
-                  type="text"
-                  id="image"
-                />
-              </div>
-              <div>
-                <input
-                  className="custom-input"
-                  placeholder="Author (not required)"
-                  onChange={handleChange}
-                  name="postedBy"
-                  type="text"
-                  id="postedBy"
-                />
-              </div>
+            <Form
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              handleChangeRecipeIngredients={handleChangeRecipeIngredients}
+              recipe={newRecipe}
+              setRecipe={setNewRecipe}
+            >
               <div className="add-button-container">
                 <button
                   className="cta-button-add"
@@ -230,15 +132,11 @@ function App() {
                 >
                   <FontAwesomeIcon icon={faClose} />
                 </button>
-                <button
-                  className="cta-button-add"
-                  type="submit"
-                  onClick={handleSubmit}
-                >
+                <button className="cta-button-add" type="submit">
                   <FontAwesomeIcon icon={faAdd} />
                 </button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

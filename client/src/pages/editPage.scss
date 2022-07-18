@@ -1,6 +1,6 @@
 @use "./App.scss";
 
-.center-container > form {
+.card {
   text-align: center;
   padding: 0.5rem 2rem;
   height: 80%;
@@ -9,21 +9,13 @@
   -moz-box-shadow: 0px 0px 5px 6px rgba(0, 0, 0, 0.05);
   box-shadow: 0px 0px 5px 6px rgba(0, 0, 0, 0.05);
 
+  & > form {
+    height: 85%;
+    max-height: 85%;
+  }
+
   h1 {
     margin-bottom: 1rem;
-  }
-
-  .edit-ingredients-container {
-    max-height: 16%;
-    height: 16%;
-    overflow-y: auto;
-    margin-left: 20px;
-  }
-
-  .edit-splitter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 
   .button-navigate {
